@@ -1,14 +1,18 @@
 import multiprocessing
 import zerorpc
+from pprint import pprint
 
-class HelloRPC(object):
-    def hello(self, name):
-        return "Hello, {}".format(name)
+class Server(object):
+    def __init__(self, port, graph):
+        self.port = port
+        self.graph = graph
+    def edges(self):
+        return self.graph.edges()
 
-def serve(port):
-    print(port)
-    print(multiprocessing.current_process())
+
+def serve(port, manager):
     print("Starting RCP server on port {}".format(port))
-    s = zerorpc.Server(HelloRPC())
+    server = Server(port, manager.get_graph())
+    s = zerorpc.Server(server)
     s.bind("tcp://0.0.0.0:{}".format(port))
     s.run()
