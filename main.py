@@ -6,7 +6,7 @@ from graph_builder import build_graph
 from zerorpc_server import serve
 
 
-server_count = 4
+server_count = 5
 graph = build_graph()
 
 class GraphClass:
@@ -18,12 +18,14 @@ class GraphManager(managers.BaseManager):
 
 def main():
     logger = m.log_to_stderr()
-    logger.setLevel(m.SUBDEBUG)
+    logger.setLevel(logging.INFO)
     GraphManager.register("GraphClass", GraphClass)
     with GraphManager() as manager:
-        for (i) in range(4200, 4200 + server_count):
+        for i in range(4200, 4200 + server_count):
             p = m.Process(target=serve, args=(i, manager.GraphClass(),))
+            p.daemon = False
             p.start()
+        p.join()
 
 if __name__ == "__main__":
     main()

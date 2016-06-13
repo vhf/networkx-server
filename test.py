@@ -1,6 +1,7 @@
 import zerorpc
 
-server_count = 4
+
+server_count = 5
 
 for i in range(4200, 4200 + server_count):
     c = zerorpc.Client()
