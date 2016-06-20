@@ -22,7 +22,7 @@ class Server(object):
 
 def serve(port, manager):
     print("Starting RCP server on port {}".format(port))
-    graph =  manager().get_graph()
+    graph = manager().get_graph()
     print(hex(id(graph)))
     server = Server(port, graph)
     s = zerorpc.Server(server)
