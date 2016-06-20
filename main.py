@@ -21,8 +21,9 @@ def main():
     logger.setLevel(logging.INFO)
     GraphManager.register("GraphClass", GraphClass)
     with GraphManager() as manager:
+        graph = manager.GraphClass().get_graph()
         for i in range(4200, 4200 + server_count):
-            p = m.Process(target=serve, args=(i, manager.GraphClass,))
+            p = m.Process(target=serve, args=(i, graph,))
             p.daemon = False
             p.start()
         p.join()

@@ -2,10 +2,13 @@ start: server.pid
 
 server.pid:
 	source ./venv/bin/activate && { python main.py & echo $$! > server.pid; }
-	source ./venv/bin/activate && python test.py &
+	make test
 
 stop: server.pid
 	pkill -TERM -P `cat $<` && rm $<
+
+test:
+	source ./venv/bin/activate && python test.py
 
 install: venv requirements
 
@@ -20,4 +23,4 @@ requirements: requirements.txt
 venv:
 	pyvenv venv
 
-.PHONY: start stop install force-kill
+.PHONY: start stop install force-kill test
